@@ -42,8 +42,8 @@ echo "Username: $HETZNER_USER (derived from host)"
 
 read -rp "Port   [default: 23]:      " HETZNER_PORT
 HETZNER_PORT="${HETZNER_PORT:-23}"
-read -rp "Path   [default: /backups]: " HETZNER_PATH
-HETZNER_PATH="${HETZNER_PATH:-/backups}"
+read -rp "Path   [default: /home/backups]: " HETZNER_PATH
+HETZNER_PATH="${HETZNER_PATH:-/home/backups}"
 
 echo
 echo "=== Backup Identity ==="
@@ -181,6 +181,10 @@ if [[ "${init_repo,,}" != "n" ]]; then
     chmod 600 "$KEY_EXPORT_PATH"
     echo "IMPORTANT: repo key exported to $KEY_EXPORT_PATH"
     echo "Store this file somewhere safe. Without it you cannot restore if the machine is lost."
+    
+    borg key export "$BORG_REPO" "my-borg-key.bin"
+    chmod 600 "my-borg-key.bin"
+    echo "Key also exported to my-borg-key.bin in current directory"
 fi
 
 # ── Offer to enable timer ─────────────────────────────────────────────────────
